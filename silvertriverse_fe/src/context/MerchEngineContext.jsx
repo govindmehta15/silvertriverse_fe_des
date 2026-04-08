@@ -178,43 +178,56 @@ export function MerchEngineProvider({ children }) {
         const interval = setInterval(() => {
             // Simulate a purchase for an OURS item
             setOursChains(prev => {
-                const nextChains = prev.map(c => {
-                    if (Math.random() > 0.3) return c; // 30% chance of a sale pulse
-                    if (c.filledSlots >= c.totalEditionSize) return c;
+                const updatedChains = prev.map(c => {
+                    const shouldPulse = Math.random() > 0.4; // 60% chance of a sale pulse
+                    if (!shouldPulse || c.filledSlots >= c.totalEditionSize) return c;
                     
                     const newSlots = c.filledSlots + 1;
-                    const newPrice = c.price + c.appreciationPerBuyer;
-                    return { ...c, filledSlots: newSlots, price: newPrice, priceHistory: [...c.priceHistory, newPrice].slice(-20) };
+                    const increment = c.appreciationPerBuyer || 50;
+                    const newPrice = c.price + increment;
+                    
+                    return { 
+                        ...c, 
+                        filledSlots: newSlots, 
+                        price: newPrice, 
+                        priceHistory: [...c.priceHistory, newPrice].slice(-30) 
+                    };
                 });
                 
-                // If the user holds a position in any of these chains, update their linear reward
-                nextChains.forEach(c => {
-                    const pos = oursPositions[c.id];
-                    if (pos) {
-                        const rewardPerUnit = c.maxRewardValue / c.totalEditionSize;
-                        const unitsSinceEntry = Math.max(0, c.filledSlots - pos.position);
-                        const currentEarned = unitsSinceEntry * rewardPerUnit;
-                        
-                        setOursPositions(curr => {
-                            const p = curr[c.id];
-                            if (!p) return curr;
-                            return {
-                                ...curr,
-                                [c.id]: {
-                                    ...p,
-                                    rewardHistory: [...p.rewardHistory, currentEarned].slice(-20)
-                                }
-                            };
-                        });
-                    }
+                // Update rewards for all held positions based on the NEW slots
+                setOursPositions(currPositions => {
+                    const nextPositions = { ...currPositions };
+                    let changed = false;
+
+                    updatedChains.forEach(c => {
+                        const pos = nextPositions[c.id];
+                        if (pos) {
+                            // LINEAR REWARD LOGIC:
+                            // Reward = (Units Sold after you) * (Max Reward / Total Units)
+                            const rewardPerUnit = c.maxRewardValue / c.totalEditionSize;
+                            const unitsSoldAfterMe = Math.max(0, c.filledSlots - pos.position);
+                            const currentTotalEarned = unitsSoldAfterMe * rewardPerUnit;
+                            
+                            // Only update if the history changed
+                            if (pos.rewardHistory[pos.rewardHistory.length - 1] !== currentTotalEarned) {
+                                nextPositions[c.id] = {
+                                    ...pos,
+                                    rewardHistory: [...pos.rewardHistory, currentTotalEarned].slice(-30)
+                                };
+                                changed = true;
+                            }
+                        }
+                    });
+
+                    return changed ? nextPositions : currPositions;
                 });
                 
-                return nextChains;
+                return updatedChains;
             });
-        }, 10000); // Pulse every 10 seconds
+        }, 8000); // Pulse every 8 seconds for a more dynamic feel
 
         return () => clearInterval(interval);
-    }, [user, oursPositions]);
+    }, [user]);
 
     const getMerchItem = useCallback((pillar, id) => {
         const pillarList = pillar === 'yours' ? yoursDrops : pillar === 'ours' ? oursChains : pillar === 'zywh' ? zywhItems : desireListings;

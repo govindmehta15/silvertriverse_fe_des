@@ -195,13 +195,18 @@ export default function RelicDetail() {
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <span className="text-[10px] text-gray-500 uppercase font-black tracking-widest block mb-1">Current Highest Bid</span>
-                        <motion.h2 key={relic.currentPrice} initial={{ scale: 1.1 }} animate={{ scale: 1 }} className="text-3xl md:text-5xl font-serif font-black text-white">
+                        <motion.h2 key={relic.currentPrice} 
+                            initial={{ scale: 1.2, color: '#facc15' }} 
+                            animate={{ scale: 1, color: '#ffffff' }} 
+                            className="text-4xl md:text-5xl font-serif font-black text-white">
                             {formatPrice(relic.currentPrice)}
                         </motion.h2>
                     </div>
                     <div className="text-right">
                         <span className="text-[10px] text-gray-500 uppercase font-black tracking-widest block mb-1">Highest Bidder</span>
-                        <p className="text-lg font-mono text-gold font-bold">User_{relic.bids[0]?.name?.substring(0,2)}***{relic.bids[0]?.id?.slice(-2)}</p>
+                        <p className={`text-lg font-mono font-bold ${relic.bids[0]?.userId === currentUser?.id ? 'text-emerald-400' : 'text-gold'}`}>
+                            {relic.bids[0]?.userId === currentUser?.id ? 'YOU (LEADING)' : `User_***${relic.bids[0]?.id?.slice(-2)}`}
+                        </p>
                     </div>
                 </div>
 
@@ -259,15 +264,7 @@ export default function RelicDetail() {
                                     <p className="text-[9px] text-zinc-600 mt-1 uppercase font-mono">{timeAgo(bid.time)}</p>
                                 </div>
                             </div>
-                            <p className={`font-serif font-black ${i === 0 ? 'text-white text-lg' : 'text-zinc-400'}`}>{formatPrice(bid.amount)}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-
-    // 3.5 RESULT VIEW
+                            <p className={`font-serif font-black ${i === 0 ? 'text-white text-lg' : 'text-zinc-400'}`}>{form    // 3.5 RESULT VIEW
     const ResultView = () => (
         <div className="p-8 bg-navy-950 border-2 border-gold/20 rounded-3xl text-center shadow-[0_0_50px_rgba(0,0,0,0.8)]">
             <h2 className="text-gold font-serif text-3xl mb-2 uppercase tracking-tight">🎉 Auction Completed</h2>
@@ -289,7 +286,11 @@ export default function RelicDetail() {
             ) : (
                 <div className="space-y-4">
                     <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                        <p className="text-zinc-500 text-xs font-bold">This relic has been claimed by User_{relic.bids[0]?.name.substring(0,2)}***</p>
+                        <p className="text-zinc-500 text-xs font-bold">This relic has been claimed by {relic.bids[0]?.name || 'a private collector'}.</p>
+                    </div>
+                    <div className="p-4 bg-gold/5 border border-gold/20 rounded-xl">
+                        <p className="text-gold text-xs font-bold uppercase tracking-widest">✔ Funds Released</p>
+                        <p className="text-gray-500 text-[9px] mt-1">Your blocked mandate amount has been returned to your wallet.</p>
                     </div>
                     <button onClick={() => navigate('/relics')} className="w-full py-3 bg-navy-800 text-gray-300 font-bold uppercase text-[10px] tracking-widest rounded-xl">TRY NEXT AUCTION</button>
                 </div>
@@ -300,32 +301,58 @@ export default function RelicDetail() {
     // 3.6 OWNERSHIP MODE
     const OwnershipView = () => (
         <div className="space-y-6">
-            <div className="p-8 bg-gradient-to-br from-gold/15 to-transparent border border-gold/30 rounded-3xl relative overflow-hidden">
+            <div className="p-8 bg-gradient-to-br from-gold/15 to-navy-900 border border-gold/30 rounded-3xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 rotate-12 opacity-10 grayscale scale-150">
                     <svg className="w-32 h-32 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2h7c0 4.52-3.13 8.75-7 9.8L5 3.8"></path></svg>
                 </div>
                 
                 <span className="text-gold text-[10px] font-black uppercase tracking-[0.4em] block mb-2">Heritage Proof</span>
-                <h3 className="text-white font-serif text-3xl font-black mb-4 uppercase">Vault Certificate</h3>
+                <h3 className="text-white font-serif text-3xl font-black mb-6 uppercase italic">Vault Certificate</h3>
                 
-                <div className="space-y-4 font-mono">
-                    <div className="flex justify-between border-b border-gold/10 pb-2">
-                        <span className="text-zinc-500 text-[9px] uppercase">Certificate ID</span>
-                        <span className="text-gold text-xs">{relic.certificateId}</span>
+                <div className="space-y-5 font-mono bg-black/40 p-5 rounded-2xl border border-gold/10">
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                        <span className="text-zinc-500 text-[9px] uppercase tracking-widest">Certificate ID</span>
+                        <span className="text-gold text-xs font-bold">{relic.certificateId || 'CERT-PENDING'}</span>
                     </div>
-                    <div className="flex justify-between border-b border-gold/10 pb-2">
-                        <span className="text-zinc-500 text-[9px] uppercase">Owner Wallet</span>
-                        <span className="text-white text-xs truncate max-w-[120px]">{id}-{currentUser?.id?.slice(-8).toUpperCase()}</span>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                        <span className="text-zinc-500 text-[9px] uppercase tracking-widest">Ownership Tier</span>
+                        <span className="text-white text-xs uppercase font-black">{relic.rarity === 'legendary' ? 'ELITE GENESIS' : 'HERITAGE'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-white/5 pb-2">
+                        <span className="text-zinc-500 text-[9px] uppercase tracking-widest">Digital Twin</span>
+                        <span className="text-cyan-400 text-xs">#{relic.id}-DT-SYNC</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-gold/5 -mx-5 -mb-5 p-4 mt-4 rounded-b-2xl">
+                        <span className="text-zinc-400 text-[9px] uppercase">Hammer Price</span>
+                        <span className="text-white text-sm font-black">{formatPrice(relic.finalPrice || relic.currentPrice)}</span>
                     </div>
                 </div>
 
                 <div className="mt-8">
-                    <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Shipment Status</p>
-                    <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/10">
-                        <motion.div initial={{ width: 0 }} animate={{ width: '30%' }} className="h-full bg-gold shadow-[0_0_10px_rgba(201,162,39,0.5)]" />
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="text-[10px] text-zinc-500 uppercase tracking-widest">Shipment Status</p>
+                        <span className="text-[9px] text-gold font-bold uppercase tracking-widest">In Transit</span>
                     </div>
-                    <p className="text-gold text-[10px] font-bold mt-2 uppercase flex items-center gap-2">
-                         📦 {relic.shipmentUpdates?.[0]?.note || 'Processing Shipment'}
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+                        <motion.div initial={{ width: 0 }} animate={{ width: '45%' }} className="h-full bg-gold shadow-[0_0_15px_rgba(201,162,39,0.8)]" />
+                    </div>
+                    <div className="mt-4 p-3 bg-white/5 rounded-xl border border-white/10">
+                        <p className="text-gold text-[11px] font-bold uppercase flex items-center gap-2 mb-1">
+                             📦 {relic.shipmentStatus === 'processing' ? 'Processing Package' : 'Package in Shipment'}
+                        </p>
+                        <p className="text-gray-500 text-[9px] italic leading-tight">
+                            {relic.shipmentUpdates?.[0]?.note || 'Your artifact is being secured for global transit.'}
+                        </p>
+                    </div>
+                </div>
+                
+                <button className="w-full mt-6 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-xl hover:bg-gold transition-colors">
+                    Download High-Res Certificate
+                </button>
+            </div>
+        </div>
+    );
+�� {relic.shipmentUpdates?.[0]?.note || 'Processing Shipment'}
                     </p>
                 </div>
             </div>
