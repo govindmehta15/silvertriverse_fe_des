@@ -8,15 +8,30 @@ export const mockRelics = [
         basePrice: 810000,
         currentPrice: 810000,
         description: 'An iconic symbol of power in historic fantasy films, this legendary crown has graced the heads of rulers in timeless classics. Its amber-tinged gems and intricate design signify royal authority and power.',
+        sceneRelevance: 'Worn during the climactic coronation sequence in Empires Fall, where the protagonist claims the fractured kingdom. The crown\'s amber glow was digitally enhanced but the prop itself radiates on camera.',
+        actorHistory: 'First worn by Rajesh Vikram in the original 1998 period drama, then reprised by Aarav Singhania in the 2019 reboot. Both actors requested personal replicas — the studio declined.',
         features: [
             'Crafted with 24K gold-plated alloy',
             'Set with 18 hand-cut amber gemstones',
             'Used in 3 blockbuster period dramas',
             'Comes with studio-signed certificate of authenticity'
         ],
+        utilityPower: {
+            name: 'Royal Decree',
+            icon: '👑',
+            tier: 'S',
+            description: 'Grants sovereign control over adjacent land plots. Structures built within influence radius receive a prestige multiplier.',
+            bonuses: [
+                { stat: 'Build Speed', value: '+25%', icon: '⚡' },
+                { stat: 'Plot Prestige', value: '+40%', icon: '✨' },
+                { stat: 'Influence Radius', value: '3 plots', icon: '🏰' },
+                { stat: 'Tax Revenue', value: '+15%', icon: '💰' },
+            ],
+            landEffect: 'Structures gain a golden aura. Adjacent plots show a royal banner overlay.',
+        },
         submittedBy: 'Royal_Props_Division',
         verifiedBy: 'Heritage Vault Authority',
-        phase: 'mandate', // Set to Mandate for testing
+        phase: 'mandate',
         mandatedUsers: [],
         phaseHistory: [
             { phase: 'submission', date: Date.now() - 15 * 86400000, note: 'Submitted by Royal Props Division' },
@@ -42,15 +57,29 @@ export const mockRelics = [
         basePrice: 320000,
         currentPrice: 355000,
         description: 'A mystical tome of forbidden knowledge, bound in enchanted leather with ancient metal clasps. Its pages contain arcane scripts that shimmer with otherworldly power.',
+        sceneRelevance: 'Central to the plot of Chronicles of the Arcane — the grimoire appears in every major scene as the source of the protagonist\'s power. The close-up shots of the runic pages became the film\'s most iconic visual.',
+        actorHistory: 'Hand-crafted by the legendary prop-maker Vikash Dutta, who spent 4 months creating 200+ pages of unique arcane calligraphy. The director refused any digital replacements.',
         features: [
             'Hand-bound enchanted leather cover',
             'Ancient metal clasps with runic engravings',
             'Over 200 pages of arcane prop manuscripts'
         ],
+        utilityPower: {
+            name: 'Arcane Knowledge',
+            icon: '📖',
+            tier: 'A',
+            description: 'Unlocks mystical blueprints for land structures. Reduces research time for advanced building types.',
+            bonuses: [
+                { stat: 'Research Speed', value: '+30%', icon: '🔬' },
+                { stat: 'Blueprint Unlock', value: '3 rare', icon: '📐' },
+                { stat: 'Construction Cost', value: '-10%', icon: '💎' },
+            ],
+            landEffect: 'Structures emit a faint purple glow with floating rune particles.',
+        },
         submittedBy: 'PropMaster_Guild',
         verifiedBy: 'Film Heritage Council',
         phase: 'bidding',
-        mandatedUsers: ['u1', 'u2', 'u3', 'u4', 'b_1', 'b_2', 'b_3'], // Natalie is mandated here
+        mandatedUsers: ['u1', 'u2', 'u3', 'u4', 'b_1', 'b_2', 'b_3'],
         phaseHistory: [
             { phase: 'submission', date: Date.now() - 10 * 86400000, note: 'Submitted by PropMaster Guild' },
             { phase: 'authentication', date: Date.now() - 9 * 86400000, note: 'Verified by Film Heritage Council' },
@@ -67,7 +96,7 @@ export const mockRelics = [
             { id: 'b1-1', userId: 'b_1', name: 'Arjun Patel', avatar: '🧔', amount: 355000, time: Date.now() - 3 * 60000, isNew: false },
             { id: 'b1-2', userId: 'u2', name: 'Elias Vance', avatar: '🧔', amount: 345000, time: Date.now() - 8 * 60000, isNew: false },
         ],
-        endTime: Date.now() + 5 * 60 * 1000, // Ending soon for testing tension UI
+        endTime: Date.now() + 5 * 60 * 1000,
         status: 'active'
     },
     {
@@ -78,7 +107,29 @@ export const mockRelics = [
         image: '/images/scifi_weapon.png',
         basePrice: 250000,
         currentPrice: 250000,
-        description: 'A devastating plasma-based weapon from the future. Features a glowing energy core.',
+        description: 'A devastating plasma-based weapon from the future. Features a glowing energy core and intricate mechanical details.',
+        sceneRelevance: 'The hero\'s primary weapon throughout the Aetherion trilogy. Fired in the iconic rooftop standoff scene that generated 200M+ views on social media. The practical prop weighed 8kg and required a custom harness.',
+        actorHistory: 'Designed by weapons choreographer Surya Menon specifically for the lead actor\'s left-handed grip. Three identical copies were made — this is the "hero" version used for all close-ups.',
+        features: [
+            'Functional LED energy core with 6 color modes',
+            'CNC-machined aluminum chassis',
+            'Custom left-hand ergonomic grip',
+            'Screen-used in all 3 Aetherion films'
+        ],
+        utilityPower: {
+            name: 'Plasma Shield',
+            icon: '🛡️',
+            tier: 'A',
+            description: 'Generates a defensive perimeter around your land. Increases structure durability against decay and events.',
+            bonuses: [
+                { stat: 'Structure Defense', value: '+35%', icon: '🛡️' },
+                { stat: 'Decay Rate', value: '-20%', icon: '🔧' },
+                { stat: 'Event Resistance', value: '+25%', icon: '⚔️' },
+            ],
+            landEffect: 'A translucent energy dome appears over your plot during events.',
+        },
+        submittedBy: 'Studio_Archive',
+        verifiedBy: 'Film Heritage Council',
         phase: 'review',
         phaseHistory: [
             { phase: 'submission', date: Date.now() - 5 * 86400000, note: 'Submitted by Studio Archive' },
@@ -104,12 +155,27 @@ export const mockRelics = [
         basePrice: 950000,
         currentPrice: 950000,
         description: 'A colossal mechanized combat suit forged from titanium alloy with integrated energy systems. This one-of-a-kind artifact features glowing power conduits and battle-worn detailing from epic sci-fi sagas.',
+        sceneRelevance: 'The centerpiece of Steel Horizon\'s third act — the mech armor is donned in a 12-minute unbroken tracking shot. The director built the entire set around this prop. It appeared on 40+ international movie posters.',
+        actorHistory: 'Custom-fitted for Arjun Mehra, who trained for 3 months to move naturally in the 25kg suit. The interior is signed by the entire cast on wrap day.',
         features: [
             'Full-scale wearable prop (adjustable fit)',
             'Integrated LED power conduit lighting',
             'Battle-worn paint and detailing by master artists',
             'Displayed at 3 international film exhibitions'
         ],
+        utilityPower: {
+            name: 'Titan Fortification',
+            icon: '🏗️',
+            tier: 'S',
+            description: 'Massively boosts construction capabilities. Enables building mega-structures that span multiple plots.',
+            bonuses: [
+                { stat: 'Build Speed', value: '+40%', icon: '⚡' },
+                { stat: 'Max Structure Size', value: '+2 levels', icon: '🏢' },
+                { stat: 'Material Efficiency', value: '+25%', icon: '♻️' },
+                { stat: 'Mega-Structure Access', value: 'Unlocked', icon: '🔓' },
+            ],
+            landEffect: 'A holographic mech sentinel stands guard on your plot perimeter.',
+        },
         submittedBy: 'VFX_Legends_Studio',
         verifiedBy: 'Heritage Vault Authority',
         phase: 'bidding',
@@ -142,12 +208,26 @@ export const mockRelics = [
         basePrice: 150000,
         currentPrice: 155000,
         description: 'Crafted from solid 18K rose gold. Set with 15 round-cut diamonds totalling 2.5 carats. Luxurious overlapping design with full pavé setting. Authentication certificate included for provenance.',
+        sceneRelevance: 'The McGuffin of The Royal Heist — every character in the film is after this ring. It appears in 47 separate shots and the heist itself revolves around swapping it with a replica. The audience never knows which is real until the final twist.',
+        actorHistory: 'The ring was personally designed by jeweler Kavita Diamonds for the production. After wrapping, the lead actress Meera Kapoor wore it to 3 award ceremonies, making it a pop culture icon.',
         features: [
             'Crafted from solid 18K rose gold',
             'Set with 15 round-cut diamonds totalling 2.5 carats',
             'Luxurious overlapping design with full pavé setting',
             'Authentication certificate included for provenance'
         ],
+        utilityPower: {
+            name: 'Prosperity Aura',
+            icon: '💍',
+            tier: 'A',
+            description: 'Enhances the economic output of all structures on your land. Passive income generation boost.',
+            bonuses: [
+                { stat: 'Income Rate', value: '+30%', icon: '💰' },
+                { stat: 'Trade Value', value: '+20%', icon: '📈' },
+                { stat: 'Visitor Attraction', value: '+15%', icon: '🧲' },
+            ],
+            landEffect: 'Buildings shimmer with a rose-gold light. Gold particle trail follows visitors.',
+        },
         submittedBy: 'Heritage_Jewels_Dept',
         verifiedBy: 'Gem Authentication Board',
         phase: 'bidding',
@@ -179,12 +259,26 @@ export const mockRelics = [
         basePrice: 420000,
         currentPrice: 420000,
         description: 'A breathtaking diamond necklace with an elaborate gold filigree setting. Each stone is hand-selected for brilliance, creating a cascading waterfall of light around the wearer.',
+        sceneRelevance: 'Worn during the ballroom confrontation scene in The Grand Affair. Under the chandelier lighting, the necklace created natural lens flares that the cinematographer decided to keep — they became the film\'s visual signature.',
+        actorHistory: 'Created by master goldsmith Ramesh Soni using techniques passed down through 4 generations. The actress wore it for 14 consecutive shooting days.',
         features: [
             'Hand-selected VVS clarity diamonds',
             'Elaborate gold filigree setting',
             'Cascading waterfall design',
             'Worn in 2 award-winning film productions'
         ],
+        utilityPower: {
+            name: 'Radiant District',
+            icon: '💎',
+            tier: 'B',
+            description: 'Improves the visual appeal and aesthetic score of your land. Attracts more visitors and boosts community ratings.',
+            bonuses: [
+                { stat: 'Aesthetic Score', value: '+35%', icon: '🎨' },
+                { stat: 'Visitor Rate', value: '+20%', icon: '👥' },
+                { stat: 'Community Rating', value: '+15%', icon: '⭐' },
+            ],
+            landEffect: 'Structures gain crystalline textures. Diamond light reflections animate on building surfaces.',
+        },
         submittedBy: 'Heritage_Jewels_Dept',
         verifiedBy: 'Gem Authentication Board',
         phase: 'review',
@@ -211,12 +305,26 @@ export const mockRelics = [
         basePrice: 550000,
         currentPrice: 550000,
         description: 'An eternity bracelet featuring full-circle diamond pavé in 18K white gold. Each facet catches light from every angle, creating a mesmerizing display of brilliance on the wrist.',
+        sceneRelevance: 'Given as a gift in Midnight in Monaco\'s pivotal romantic scene on the yacht deck. The camera holds a 30-second close-up as the bracelet catches moonlight — voted the most beautiful prop shot of the decade.',
+        actorHistory: 'Originally from the private collection of producer Anita Deshmukh. She loaned it for the film on the condition it be returned — the auction represents her decision to let it find a new guardian.',
         features: [
             '18K white gold band with diamond pavé',
             '360-degree diamond coverage',
             'Box clasp with safety chain',
             'From the personal collection of film royalty'
         ],
+        utilityPower: {
+            name: 'Eternal Foundation',
+            icon: '♾️',
+            tier: 'A',
+            description: 'Structures built on your land never degrade. Permanent construction with zero maintenance cost.',
+            bonuses: [
+                { stat: 'Decay Rate', value: '0% (immune)', icon: '🛡️' },
+                { stat: 'Maintenance Cost', value: '-100%', icon: '🔧' },
+                { stat: 'Structure Lifespan', value: 'Infinite', icon: '♾️' },
+            ],
+            landEffect: 'Building foundations glow with an eternal white-gold shimmer.',
+        },
         submittedBy: 'Luxury_Props_Archive',
         verifiedBy: 'Heritage Vault Authority',
         phase: 'mandate',
@@ -244,12 +352,26 @@ export const mockRelics = [
         basePrice: 130000,
         currentPrice: 130000,
         description: 'An iconic black bomber jacket with handcrafted gold embroidery depicting mythical creatures. Worn by the lead protagonist throughout the blockbuster action franchise.',
+        sceneRelevance: 'The jacket is the protagonist\'s signature look through both Night Operations films. The gold phoenix embroidery on the back became an instantly recognizable pop-culture symbol, spawning millions of fan replicas.',
+        actorHistory: 'Designed by costume legend Priya Malhotra. The lead actor Siddharth Rao kept the jacket between films and wore it to his own stunts, adding authentic wear that the director loved.',
         features: [
             'Premium Italian leather exterior',
             'Handcrafted gold thread embroidery',
             'Silk-lined interior with production label',
             'Screen-worn in 2 consecutive franchise films'
         ],
+        utilityPower: {
+            name: 'Shadow Network',
+            icon: '🌑',
+            tier: 'B',
+            description: 'Enables stealth-mode for your land. Structures are hidden from rival land scanners during competitive events.',
+            bonuses: [
+                { stat: 'Stealth Rating', value: '+50%', icon: '👁️‍🗨️' },
+                { stat: 'Event Camouflage', value: 'Active', icon: '🌑' },
+                { stat: 'Resource Protection', value: '+20%', icon: '🔒' },
+            ],
+            landEffect: 'A subtle dark mist drifts across plot borders. Buildings have a noir shadow filter.',
+        },
         submittedBy: 'Costume_Dept_Official',
         verifiedBy: 'Film Wardrobe Association',
         phase: 'catalogue',
@@ -275,12 +397,26 @@ export const mockRelics = [
         basePrice: 200000,
         currentPrice: 350000,
         description: 'The iconic leather trench coat worn throughout the noir thriller series. Features hand-stitched detailing, a hidden inner lining with production notes, and authentic wear from filming.',
+        sceneRelevance: 'Appears in all 87 scenes of The Silhouette. The final rain-soaked chase sequence — where the coat billows in slow motion — won the cinematography award at 3 festivals. The rain damage was meticulously preserved.',
+        actorHistory: 'The actor insisted on doing all rain scenes personally, creating irreplaceable water stains and patina. The inner collar bears his autograph and a quote from his character: "The truth wears leather."',
         features: [
             'Full-grain leather with hand-stitched seams',
             'Hidden inner pocket with original script notes',
             'Authentic production wear and patina',
             'Signed by the lead actor on inner collar'
         ],
+        utilityPower: {
+            name: 'Investigation Hub',
+            icon: '🕵️',
+            tier: 'B',
+            description: 'Reveals hidden features and secrets on nearby land plots. Unlocks detective-mode scanning for your territory.',
+            bonuses: [
+                { stat: 'Discovery Range', value: '+3 plots', icon: '🔍' },
+                { stat: 'Hidden Item Reveal', value: '+40%', icon: '🗝️' },
+                { stat: 'Intel Generation', value: '+25%', icon: '📡' },
+            ],
+            landEffect: 'Magnifying glass scan effect sweeps across your territory periodically.',
+        },
         submittedBy: 'Costume_Dept_Official',
         verifiedBy: 'Film Wardrobe Association',
         phase: 'closed',
@@ -313,12 +449,27 @@ export const mockRelics = [
         basePrice: 800000,
         currentPrice: 800000,
         description: 'A breathtaking midnight black evening gown with intricate beadwork and a dramatic silhouette. Designed by a renowned fashion house exclusively for the film\'s climactic ballroom scene.',
+        sceneRelevance: 'The gown is revealed in a single unbroken dolly-in shot as the protagonist descends the grand staircase in The Grand Affair. The 4,000+ hand-sewn crystals caught the chandelier light, creating what critics called "cinematic couture perfection."',
+        actorHistory: 'Designed by fashion house Maison Veritas in a collaboration that took 6 months. The lead actress Ananya Trivedi described wearing it as "carrying the weight of an entire film on my shoulders — literally."',
         features: [
             'Hand-sewn crystal and jet bead embellishments',
             'Silk charmeuse lining with French lace overlays',
             'Custom-designed by a luxury fashion house',
             'Featured in the iconic ballroom sequence'
         ],
+        utilityPower: {
+            name: 'Grand Architecture',
+            icon: '🏛️',
+            tier: 'S',
+            description: 'Unlocks exclusive luxury building styles. All structures on your land adopt premium architectural aesthetics.',
+            bonuses: [
+                { stat: 'Aesthetic Score', value: '+50%', icon: '🎨' },
+                { stat: 'Luxury Buildings', value: '5 exclusive', icon: '🏛️' },
+                { stat: 'Land Valuation', value: '+35%', icon: '📈' },
+                { stat: 'Visitor Premium', value: '+25%', icon: '🎫' },
+            ],
+            landEffect: 'All structures transform to luxury midnight theme with crystal accents.',
+        },
         submittedBy: 'Luxury_Props_Archive',
         verifiedBy: 'Heritage Vault Authority',
         phase: 'review',

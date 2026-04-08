@@ -84,8 +84,11 @@ function RelicCard({ relic, onClick }) {
                 {/* Info */}
                 <div className="p-3 space-y-2">
                     <h3 className="font-serif text-[11px] font-bold text-white uppercase tracking-wider truncate">{relic.title}</h3>
+                    {relic.film && (
+                        <p className="text-[8px] text-gray-500 truncate">🎬 <span className="italic">{relic.film}</span></p>
+                    )}
                     <PhasePipeline currentPhase={relic.phase} />
-                    
+
                     <div className="flex items-center justify-between">
                         <span className="text-[8px] font-bold uppercase tracking-wider text-gray-500">{phase.icon} {phase.label}</span>
                         {isLive && <div className="flex items-center gap-1"><div className="w-1 h-1 rounded-full bg-green-400 animate-ping" /><span className="text-green-400 text-[8px] font-bold">LIVE</span></div>}

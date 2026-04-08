@@ -260,22 +260,34 @@ export default function ReelityFeedPage() {
                 <div className="flex-1 space-y-4">
                     
                     {/* ── METROPOLIS PORTALS ────────────────────────── */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4 justify-center items-stretch">
                         {APP_FEATURE_SPOTLIGHTS.map(spot => (
                             <motion.button
                                 key={spot.id}
-                                whileHover={{ scale: 1.02, y: -4 }}
+                                whileHover={{ scale: 1.05, y: -8 }}
+                                whileTap={{ scale: 0.95 }}
                                 onClick={() => triggerPortalTravel(spot)}
-                                className={`relative overflow-hidden group p-5 rounded-2xl border ${spot.borderColor} bg-gradient-to-br ${spot.accent} text-left transition-all`}
+                                className={`relative overflow-hidden group p-3 sm:p-5 rounded-2xl border ${spot.borderColor} bg-gradient-to-br ${spot.accent} text-center flex flex-col items-center justify-between transition-all backdrop-blur-md hover:shadow-2xl hover:shadow-gold/10`}
                             >
-                                <div className="flex justify-between items-start mb-3">
-                                    <span className="text-3xl filter drop-shadow-md">{spot.icon}</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-black/40 text-[9px] font-bold text-white uppercase tracking-widest">{spot.stats}</span>
+                                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                <div className="absolute top-0 right-0 p-1 opacity-20 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform">
+                                    <span className="text-4xl filter blur-[2px]">{spot.icon}</span>
                                 </div>
-                                <h3 className="text-white font-bold text-lg mb-1">{spot.title}</h3>
-                                <p className="text-gray-300 text-[10px] leading-relaxed line-clamp-2">{spot.message}</p>
-                                <div className="absolute bottom-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="text-gold text-xs">Enter →</span>
+
+                                <div className="flex flex-col items-center gap-1 sm:gap-2 z-10 w-full">
+                                    <div className="relative">
+                                        <span className="text-2xl sm:text-4xl filter drop-shadow-xl inline-block group-hover:rotate-12 transition-transform">{spot.icon}</span>
+                                        <div className="absolute -bottom-1 -right-1 w-2 h-2 rounded-full bg-gold animate-pulse hidden sm:block" />
+                                    </div>
+                                    <h3 className="text-white font-black text-[9px] sm:text-sm uppercase tracking-tighter sm:tracking-normal line-clamp-1">{spot.title}</h3>
+                                </div>
+
+                                <p className="text-gray-400 text-[10px] leading-tight hidden lg:block mt-2 opacity-0 group-hover:opacity-100 transition-opacity max-w-[120px] mx-auto">{spot.message}</p>
+                                
+                                <div className="mt-2 sm:mt-3 w-full">
+                                    <span className="block text-[7px] sm:text-[9px] font-black text-gold/80 uppercase tracking-[0.1em] border border-gold/20 rounded-lg px-1 py-1 bg-black/20 group-hover:bg-gold group-hover:text-navy-950 transition-all">
+                                        {spot.stats}
+                                    </span>
                                 </div>
                             </motion.button>
                         ))}

@@ -2,17 +2,19 @@ import { getData, updateData } from '../utils/storageService';
 import { mockRelics } from '../mock/mockRelics';
 import { dispatchNotification, NotificationTypes } from '../utils/notificationDispatcher';
 
-// Initialize mock relics if not present, and auto-reset when everything has ended.
+// Initialize mock relics if not present, auto-reset when all ended,
+// or re-seed when mock data structure has been upgraded (new fields).
+const RELICS_DATA_VERSION = 2; // bump this when mockRelics structure changes
 const existingRelics = getData('relics');
-if (!existingRelics) {
+const storedVersion = getData('relics_version');
+const needsReseed = !existingRelics
+    || storedVersion !== RELICS_DATA_VERSION
+    || (Array.isArray(existingRelics) && existingRelics.length > 0 &&
+        existingRelics.every((relic) => relic.status === 'ended' || relic.phase === 'closed' || relic.endTime <= Date.now()));
+
+if (needsReseed) {
     updateData('relics', () => mockRelics);
-} else if (
-    Array.isArray(existingRelics) &&
-    existingRelics.length > 0 &&
-    existingRelics.every((relic) => relic.status === 'ended' || relic.phase === 'closed' || relic.endTime <= Date.now())
-) {
-    // Re-seed with fresh Date.now()-based timers from mock data.
-    updateData('relics', () => mockRelics);
+    updateData('relics_version', () => RELICS_DATA_VERSION);
 }
 
 const simulateNetwork = (data) => {
