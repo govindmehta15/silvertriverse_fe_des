@@ -10,6 +10,7 @@ import { getData, setData } from '../utils/storageService';
 import { dispatchNotification, NotificationTypes } from '../utils/notificationDispatcher';
 import { premiumMerchandise, dailyMerchandise } from '../data/merchandiseData';
 import { getThemeById, DEFAULT_THEME_ID, PROFILE_THEMES, FALLBACK_PAGE_BACKGROUND, FALLBACK_COVER_BLEND } from '../data/profileThemes';
+import { useMerchEngine } from '../context/MerchEngineContext';
 
 const userProfileFallback = {
     club: 'Cinema Club 47',
@@ -43,6 +44,7 @@ const item = {
 export default function ProfilePage() {
     const { user, updateRole } = useAuth();
     const { addToast } = useToast();
+    const { portfolioYield } = useMerchEngine();
     const [activeTab, setActiveTab] = useState('Shelf');
     const [orders, setOrders] = useState([]);
     const [coins, setCoins] = useState([]);
@@ -122,9 +124,9 @@ export default function ProfilePage() {
 
     const stats = [
         { label: 'Followers', value: profileUser?.followers || 0, icon: '👥' },
-        { label: 'Participation Level', value: profileUser?.participationScore || 0, icon: '⭐' },
+        { label: 'Ours Yield', value: isOwnProfile ? `₹${Math.floor(portfolioYield)}` : '₹0', icon: '📈' },
         { label: 'Relics Owned', value: profileUser?.ownedRelics?.length || 0, icon: '🏛️' },
-        { label: 'Purchases (Orders)', value: isOwnProfile ? (orders.length || 0) : '—', icon: '🛍️' },
+        { label: 'Participation', value: profileUser?.participationScore || 0, icon: '⭐' },
     ];
 
     const displayRoles = profileUser?.role === 'creator' ? ['Creator', 'Director'] : profileUser?.role === 'professional' ? ['Professional', 'Studio Exec'] : ['Fan', 'Collector'];
@@ -181,9 +183,18 @@ export default function ProfilePage() {
         }
 
         // Relics 
+        const allRelics = getData('relics') || [];
         (profileUser.ownedRelics || []).forEach(rId => {
             total++;
-            other.push({ type: 'Relic', name: `Relic #${rId}`, image: '/images/scifi_weapon.png' });
+            const relic = allRelics.find(r => r.id === rId);
+            other.push({ 
+                type: 'Relic', 
+                id: rId,
+                name: relic ? relic.title : `Relic #${rId}`, 
+                image: relic ? relic.image : '/images/scifi_weapon.png',
+                phase: 'closed',
+                finalPrice: relic?.finalPrice
+            });
         });
 
         // Collectible Coins (from localStorage if own profile, else mock it if available on user)
