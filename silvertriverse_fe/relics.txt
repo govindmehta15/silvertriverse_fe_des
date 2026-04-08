@@ -1,0 +1,462 @@
+# 🏛️ RELICS AUCTION — FRONTEND PROTOTYPE + LOGIC
+
+## (Real-Time Premium Auction Experience)
+
+---
+
+# 🌍 1. AUCTION UX PRINCIPLE
+
+Auction is NOT just bidding.
+
+It must feel like:
+
+> 🎬 **A live cinematic event + high-stakes competition**
+
+---
+
+# 📱 2. AUCTION FLOW (FULL USER JOURNEY)
+
+```text id="z4nqgi"
+Preview → Register (Mandate) → Eligible
+→ Enter Auction Room → Live Bidding
+→ Auction End → Result → Ownership
+```
+
+---
+
+# 🧩 3. SCREEN STRUCTURE (COMPLETE)
+
+---
+
+# 🔷 3.1 PREVIEW PAGE (BEFORE AUCTION)
+
+## 🎯 Purpose:
+
+* Build desire
+* Educate
+* Prepare user
+
+---
+
+## UI STRUCTURE
+
+```text id="5uzqf9"
+-----------------------------------------
+[ Hero Visual (Full Width) ]
+- Relic Image / Video
+
+[ Title + Film Origin ]
+[ Verified Badge ]
+
+-----------------------------------------
+[ Story Section ]
+- Scene relevance
+- Actor / film history
+
+-----------------------------------------
+[ Certification Panel ]
+- Provenance
+- Authenticity badge
+
+-----------------------------------------
+[ Auction Info ]
+- Base Price
+- Auction Start Timer
+
+-----------------------------------------
+[ CTA ]
+→ Register for Auction
+-----------------------------------------
+```
+
+---
+
+## LOGIC
+
+* No bidding allowed
+* Only registration enabled
+* CTA → mandate registration
+
+---
+
+# 🔷 3.2 MANDATE REGISTRATION SCREEN
+
+---
+
+## UI
+
+```text id="09wk8s"
+-----------------------------------------
+[ Auction Entry Confirmation ]
+
+Base Price: ₹XXXXX
+
+[ Info Box ]
+- Amount will be blocked temporarily
+- Required for eligibility
+
+-----------------------------------------
+[ Confirm Mandate Button ]
+-----------------------------------------
+```
+
+---
+
+## LOGIC
+
+```text id="nrz7jy"
+Click Confirm
+→ Call payment API
+→ Block funds
+→ Mark user as ELIGIBLE
+```
+
+---
+
+# 🔷 3.3 AUCTION ROOM (CORE SCREEN)
+
+---
+
+## 🎯 This is the MOST IMPORTANT UI
+
+---
+
+## UI STRUCTURE
+
+```text id="rcfb76"
+-----------------------------------------
+[ Relic Banner (Top) ]
+
+[ Timer Countdown ]
+⏳ 02:14:35 remaining
+
+-----------------------------------------
+[ Current Highest Bid ]
+₹ 2,50,000
+[ Highest Bidder (masked)]
+User_***23
+
+-----------------------------------------
+[ Bid History (Live Scroll) ]
+User1 → ₹2,10,000
+User2 → ₹2,30,000
+You → ₹2,40,000
+
+-----------------------------------------
+[ Bid Input Section ]
+
+[ + Increment Buttons ]
++10K  +25K  +50K
+
+[ Custom Bid Input ]
+
+[ PLACE BID BUTTON ]
+
+-----------------------------------------
+[ Status Indicator ]
+✔ You are eligible
+-----------------------------------------
+```
+
+---
+
+## 🔥 REAL-TIME LOGIC
+
+---
+
+### 1. LIVE DATA STREAM
+
+```text id="knh6pr"
+WebSocket Connection
+→ Subscribe to Auction Channel
+→ Receive:
+   - New bids
+   - Timer updates
+   - Winner updates
+```
+
+---
+
+### 2. BID VALIDATION
+
+```text id="mnz9qk"
+IF bid > current highest
+   → accept
+ELSE
+   → reject (show error)
+```
+
+---
+
+### 3. UI UPDATE
+
+```text id="v7n7pu"
+New Bid →
+Update:
+- highest bid
+- bidder
+- history
+→ Animate highlight
+```
+
+---
+
+### 4. USER STATE
+
+* Leading → highlight UI (green glow)
+* Outbid → notification + vibration
+* Watching → neutral
+
+---
+
+# 🔷 3.4 OUTBID NOTIFICATION (CRITICAL UX)
+
+---
+
+## UI
+
+```text id="7q8yrm"
+⚠️ You’ve been outbid!
+
+[ Place Higher Bid ]
+```
+
+---
+
+## LOGIC
+
+```text id="r77nqp"
+IF new highest_bidder != current_user
+→ trigger alert
+```
+
+---
+
+# 🔷 3.5 AUCTION END SCREEN
+
+---
+
+## UI
+
+```text id="fzt3l9"
+-----------------------------------------
+🎉 Auction Completed
+
+Winner:
+User_***23
+
+Final Price:
+₹ 3,20,000
+
+-----------------------------------------
+```
+
+---
+
+## USER STATES
+
+### Winner
+
+```text id="9gr4ks"
+🎉 You Won!
+→ Payment Confirmed
+→ Proceed to Ownership
+```
+
+---
+
+### Non-Winner
+
+```text id="hy2m7d"
+Auction Closed
+→ Funds Released
+→ Try Next Auction
+```
+
+---
+
+# 🔷 3.6 POST-AUCTION (OWNERSHIP SCREEN)
+
+---
+
+## UI
+
+```text id="tqj44j"
+-----------------------------------------
+🏛️ You Own This Relic
+
+[ Digital Certificate ]
+[ Shipment Status ]
+
+-----------------------------------------
+```
+
+---
+
+---
+
+# 🔗 4. CROSS-PILLAR UI INTEGRATION
+
+---
+
+## 🌊 REELITY
+
+```text id="sjqvbm"
+Auction Event → Feed Card
+→ "Auction Live"
+→ "High Bidding"
+→ "Winner Announcement"
+```
+
+---
+
+## 👥 CLUBS
+
+```text id="0zncwt"
+Club Page → Auction Poll
+→ Members vote
+→ Pool funds
+→ Collective bidding UI
+```
+
+---
+
+## 👤 PROFILE
+
+```text id="83z8nl"
+Profile → Digital Shelf
+→ Relic Display (premium section)
+```
+
+---
+
+---
+
+# ⚙️ 5. STATE MANAGEMENT (FRONTEND)
+
+---
+
+## STATES
+
+```text id="eqh7vw"
+PREVIEW
+REGISTERED
+ELIGIBLE
+LIVE_BIDDING
+OUTBID
+LEADING
+WON
+LOST
+```
+
+---
+
+## TRANSITIONS
+
+```text id="2lw39m"
+PREVIEW → REGISTERED → ELIGIBLE → LIVE
+→ (LEADING / OUTBID)
+→ WON / LOST
+```
+
+---
+
+---
+
+# ⚡ 6. PERFORMANCE & REAL-TIME DESIGN
+
+---
+
+## REQUIRED:
+
+* WebSockets for live updates
+* Debounce input for bids
+* Optimistic UI updates
+
+---
+
+## OPTIONAL:
+
+* sound effects (bid placed)
+* animation (price jump)
+* haptic feedback
+
+---
+
+---
+
+# 🎯 7. UX DESIGN RULES
+
+---
+
+## RULE 1 — TENSION
+
+* countdown visible
+* blinking timer near end
+
+---
+
+## RULE 2 — COMPETITION
+
+* highlight current leader
+* show recent bids
+
+---
+
+## RULE 3 — URGENCY
+
+* “Auction ending soon”
+* last-minute bid surge
+
+---
+
+## RULE 4 — TRUST
+
+* certification visible
+* bidder anonymity
+
+---
+
+---
+
+# 🚀 8. FINAL USER EXPERIENCE LOOP
+
+---
+
+```text id="rjq7rq"
+See Auction → Register → Enter
+→ Compete → Win / Lose
+→ Recognition / Retry
+→ Feed Visibility
+→ Next Auction
+```
+
+---
+
+---
+
+# 🧠 FINAL INSIGHT
+
+This auction system should feel like:
+
+🎬 Movie Scene +
+📈 Stock Market +
+🎮 Competitive Game
+
+---
+
+NOT:
+
+❌ static bidding page
+
+---
+
+# 🔥 MOST IMPORTANT
+
+If this UI is done right:
+
+👉 Users will stay till last second
+👉 Emotional investment increases
+👉 Bid value increases
+
+---
