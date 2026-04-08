@@ -1,0 +1,439 @@
+# 🎬 REELITY — FINAL FRONTEND STRUCTURE & USER FLOW
+
+## (Cinematic Social Engine of Silvertriverse)
+
+---
+
+# 🌍 1. CORE PURPOSE (VERY IMPORTANT)
+
+Reelity is NOT just a feed.
+
+It is:
+
+> A **Cultural + Commerce + Community Feed Engine**
+> where social interaction directly connects with economy (FCU, Merch, Auctions, Clubs)
+
+As defined in system:
+
+* It connects users, brands, collectibles, auctions, and updates into one unified stream 
+
+---
+
+# 📱 2. MAIN ENTRY (HOME TAB)
+
+## 🎯 SCREEN: REELITY FEED (DEFAULT LANDING)
+
+### UI STRUCTURE
+
+```
+--------------------------------------------------
+[ Top Bar ]
+- Logo / Category Toggle
+- Search
+- Notifications
+
+[ Stories Row ]
+- User Stories (24h)
+- Brand Stories (Promoted)
+
+[ Feed Filter Tabs ]
+- All
+- Following (Fan)
+- Tags
+- Clubs
+- Commerce (optional toggle)
+
+--------------------------------------------------
+[ Feed Stream ]
+(Dynamic Mixed Content)
+
+--------------------------------------------------
+[ Floating CTA ]
++ Create Post
++ Ring a Bell (collaboration)
+--------------------------------------------------
+```
+
+---
+
+# 🧠 3. FEED CONTENT ARCHITECTURE (CORE LOGIC)
+
+Feed = Multi-source aggregation
+
+### Content Types (MUST BE MIXED)
+
+1. User Posts
+2. Industry Posts (higher priority)
+3. Commerce Events:
+
+   * FCU updates
+   * Merch drops
+   * Auctions
+4. Club Activities
+5. Social Achievements
+
+👉 Feed composition:
+
+* 60% social
+* 20% commerce
+* 20% discovery/events 
+
+---
+
+# 🧩 4. FEED CARD TYPES (UI COMPONENTS)
+
+---
+
+## 4.1 SOCIAL POST CARD
+
+```
+[Profile]
+[Image/Video/Text]
+[Caption]
+
+[Actions]
+Like | Comment | Share | Tag | Save
+```
+
+CTA:
+→ Open Profile
+→ Open Comments
+
+---
+
+## 4.2 COMMERCE CARD (VERY IMPORTANT)
+
+👉 This drives economy
+
+```
+[Event Banner]
+
+Type:
+- FCU Drop
+- Merch Launch
+- Auction Live
+
+[Details]
+- Title
+- Countdown / Status
+
+[CTA]
+→ Participate / Bid / Explore
+```
+
+---
+
+## 4.3 ACHIEVEMENT CARD
+
+```
+[User Activity]
+"User acquired rare FCU"
+
+[Visibility Control]
+- Public / Tag-only / Private
+```
+
+---
+
+## 4.4 CLUB POST CARD
+
+```
+[Club Name]
+[Post Content]
+
+CTA:
+→ Open Club
+```
+
+---
+
+## 4.5 BRAND / INDUSTRY POST
+
+* Verified badge
+* Higher reach
+* Longer visibility (30 days) 
+
+---
+
+# 🔁 5. CORE USER FLOW (MOST IMPORTANT)
+
+---
+
+## FLOW 1 — DISCOVERY LOOP
+
+```
+Open App
+→ Feed
+→ See Event (FCU / Merch / Auction)
+→ Click CTA
+→ Participate
+→ Result / Ownership
+→ Back to Feed (Achievement visible)
+```
+
+---
+
+## FLOW 2 — SOCIAL → ECONOMY
+
+```
+Post → Engagement → Profile Visit
+→ User explores assets
+→ Enters CU / Merch
+→ Participates
+```
+
+---
+
+## FLOW 3 — COMMUNITY LOOP
+
+```
+Feed → Club Post
+→ Join Club
+→ Participate in Auction / Discussion
+→ Club Achievement
+→ Feed visibility
+```
+
+---
+
+## FLOW 4 — CREATOR / INDUSTRY LOOP
+
+```
+Industry Post → Engagement
+→ Portfolio Discovery
+→ Collaboration (Ring Bell)
+→ Project creation
+```
+
+---
+
+# 📚 6. SUBPAGES STRUCTURE (FULL)
+
+---
+
+# 🔹 6.1 STORIES PAGE
+
+### Features:
+
+* 24-hour lifecycle
+* Brand promotion slots
+
+### Flow:
+
+```
+Tap Story → Fullscreen Viewer
+→ Swipe → Next Story
+→ CTA inside story (Visit Profile / Campaign)
+```
+
+---
+
+# 🔹 6.2 POST DETAIL PAGE
+
+```
+Post
+↓
+Comments Section
+↓
+Related Actions:
+- Visit Profile
+- Join Campaign
+- Explore Merch / FCU
+```
+
+---
+
+# 🔹 6.3 PROFILE PAGE (ENTRY FROM FEED)
+
+### Sections:
+
+```
+[Header]
+- Profile Type (User / Brand / Celebrity)
+- Tag / Fan buttons
+
+[Tabs]
+- Posts
+- Digital Shelf
+- Portfolio
+- Clubs
+- Land (if owned)
+```
+
+👉 Profiles are layered:
+
+* Common
+* Celebrity
+* Brand 
+
+---
+
+# 🔹 6.4 CLUB PAGE
+
+### Structure:
+
+```
+[Club Header]
+[Members]
+
+[Tabs]
+- Posts
+- Digital Shelf
+- Auctions
+- AI News (optional)
+```
+
+### Flow:
+
+```
+Feed → Club Post → Club Page
+→ Join → Participate
+```
+
+---
+
+# 🔹 6.5 COMMERCE ENTRY PAGE (FROM FEED)
+
+Dynamic routing:
+
+| Card Type | Redirect      |
+| --------- | ------------- |
+| FCU       | FCU Detail    |
+| Merch     | Merch Product |
+| Auction   | Auction Page  |
+
+---
+
+# 🔹 6.6 RING A BELL (COLLABORATION)
+
+### Entry:
+
+Floating CTA / Profile
+
+### Flow:
+
+```
+Create Project
+→ Select Roles Needed
+→ AI Suggests Team (max 7)
+→ Send Invites
+→ Build Team
+```
+
+👉 Talent discovery system 
+
+---
+
+# 🔹 6.7 SEARCH & DISCOVERY PAGE
+
+### Sections:
+
+* Users
+* Brands
+* Clubs
+* Collectibles
+* Trends
+
+---
+
+# 🔹 6.8 NOTIFICATIONS PAGE
+
+Types:
+
+* Social (likes, comments)
+* Commerce (drops, auctions)
+* Achievements
+* Collaboration invites
+
+---
+
+# 🔹 6.9 CATEGORY TOGGLE (FUTURE SCALE)
+
+```
+[ Cinema ] [ Sports ] [ Art ] [ Music ]
+```
+
+Each has independent feed 
+
+---
+
+# 🔐 7. PRIVACY & CONTROL UI
+
+Users can control:
+
+* Achievement visibility
+* Tag approval
+* Fan approval (private accounts)
+* Post visibility duration
+
+---
+
+# 🎯 8. FEED ALGORITHM (UI IMPACT)
+
+Feed priority:
+
+1. Industry / Brand
+2. Tag connections
+3. Fan follows
+4. Commerce triggers
+5. Clubs
+
+---
+
+# 🚀 9. ENGAGEMENT TRIGGERS (CRITICAL FOR UI)
+
+Every screen MUST push user to:
+
+* Click
+* Participate
+* Explore
+* Join
+* Invest (time or money)
+
+---
+
+# 🔥 10. FINAL EXPERIENCE DESIGN
+
+---
+
+## USER JOURNEY
+
+```
+Scroll → Discover → Engage → Participate → Own → Share → Repeat
+```
+
+---
+
+# 🧠 FINAL PRODUCT INSIGHT
+
+Reelity is NOT:
+
+❌ Instagram clone
+
+It IS:
+
+> ✅ A **social-economic engine where every interaction leads to participation in a cultural economy**
+
+---
+
+# ⚠️ DESIGN RULES (VERY IMPORTANT)
+
+1. Every card must have CTA
+2. No dead scroll (every post leads somewhere)
+3. Commerce must feel like content
+4. Feed must feel dynamic, not repetitive
+5. Profile = identity + economy
+
+---
+
+# 🎯 FINAL GOAL
+
+Design Reelity like:
+
+👉 Instagram × LinkedIn × Stock Market × Gaming Feed
+
+But UX should feel:
+
+👉 Simple, clean, addictive
+
+---

@@ -1,0 +1,342 @@
+# 🎬 REELITY — FIGMA-LEVEL UI (HTML STRUCTURE)
+
+---
+
+# 🌍 1. MAIN FEED SCREEN (HOME)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reelity Feed</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0f0f0f;
+  color: white;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.icon {
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.stories {
+  display: flex;
+  overflow-x: auto;
+  padding: 12px;
+  gap: 12px;
+}
+
+.story {
+  width: 70px;
+  text-align: center;
+}
+
+.story img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #ff4757;
+}
+
+.feed {
+  padding-bottom: 80px;
+}
+
+.card {
+  border-bottom: 1px solid #222;
+  padding: 12px;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.button {
+  background: #1f1f1f;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.commerce {
+  background: linear-gradient(90deg, #ff7a18, #ffb347);
+  padding: 12px;
+  border-radius: 10px;
+  color: black;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: #111;
+  padding: 10px 0;
+  border-top: 1px solid #222;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="logo">Reelity</div>
+  <div>
+    🔍 🔔
+  </div>
+</div>
+
+<!-- Stories -->
+<div class="stories">
+  <div class="story">
+    <img src="https://via.placeholder.com/60">
+    <div>You</div>
+  </div>
+  <div class="story">
+    <img src="https://via.placeholder.com/60">
+    <div>Brand</div>
+  </div>
+</div>
+
+<!-- Feed -->
+<div class="feed">
+
+  <!-- Social Post -->
+  <div class="card">
+    <b>@user_name</b>
+    <img src="https://via.placeholder.com/400x300">
+    <p>Exploring cinematic culture 🔥</p>
+
+    <div class="actions">
+      ❤️ 💬 🔗
+    </div>
+  </div>
+
+  <!-- Commerce Card -->
+  <div class="card commerce">
+    <b>🔥 FCU Drop Live</b>
+    <p>Limited units available</p>
+    <div class="button">Participate</div>
+  </div>
+
+  <!-- Club Post -->
+  <div class="card">
+    <b>🎬 Film Club</b>
+    <p>New discussion on top movies</p>
+    <div class="button">Join</div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  🏠 🎴 🛍️ 🌍 👤
+</div>
+
+</body>
+</html>
+```
+
+---
+
+# 🧩 2. POST DETAIL PAGE
+
+```html
+<div class="card">
+  <h3>@user_name</h3>
+  <img src="https://via.placeholder.com/400x300">
+
+  <p>Post content here...</p>
+
+  <div class="actions">
+    ❤️ Comment Share
+  </div>
+
+  <hr>
+
+  <div>
+    <b>Comments</b>
+    <p>@user1: Nice!</p>
+    <p>@user2: Amazing 🔥</p>
+  </div>
+</div>
+```
+
+---
+
+# 👤 3. PROFILE PAGE
+
+```html
+<div class="profile">
+
+  <div style="text-align:center; padding:20px;">
+    <img src="https://via.placeholder.com/80" style="border-radius:50%;">
+    <h2>User Name</h2>
+    <p>Creator | Collector</p>
+
+    <button>Follow</button>
+    <button>Tag</button>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex; justify-content:space-around;">
+    <div>Posts</div>
+    <div>Portfolio</div>
+    <div>Digital Shelf</div>
+  </div>
+
+</div>
+```
+
+---
+
+# 🧠 4. CLUB PAGE
+
+```html
+<div class="club">
+
+  <h2>🎬 Film Club</h2>
+  <p>Members: 1200</p>
+
+  <button>Join Club</button>
+
+  <div class="card">
+    <p>Discussion: Best actor?</p>
+  </div>
+
+</div>
+```
+
+---
+
+# 🎯 5. COMMERCE ENTRY (MERCH / FCU)
+
+```html
+<div class="commerce">
+
+  <h2>🔥 Limited Drop</h2>
+  <img src="https://via.placeholder.com/400">
+
+  <p>Only 100 units</p>
+
+  <button>Participate</button>
+
+</div>
+```
+
+---
+
+# 🔔 6. NOTIFICATIONS PAGE
+
+```html
+<div>
+
+  <h2>Notifications</h2>
+
+  <div class="card">You received FCU</div>
+  <div class="card">Auction ending soon</div>
+  <div class="card">New follower</div>
+
+</div>
+```
+
+---
+
+# 🔍 7. SEARCH PAGE
+
+```html
+<div>
+
+  <input placeholder="Search..." style="width:100%; padding:10px;">
+
+  <div class="card">User Result</div>
+  <div class="card">Brand Result</div>
+  <div class="card">Club Result</div>
+
+</div>
+```
+
+---
+
+# 🚀 8. RING A BELL (COLLAB UI)
+
+```html
+<div>
+
+  <h2>Create Project</h2>
+
+  <input placeholder="Project Title">
+  <input placeholder="Roles Needed">
+
+  <button>Find Team</button>
+
+</div>
+```
+
+---
+
+# 🎨 DESIGN SYSTEM (IMPORTANT)
+
+```css
+Primary: #ff4757
+Background: #0f0f0f
+Card: #1a1a1a
+Text: #ffffff
+Accent Gradient: orange → yellow
+```
+
+---
+
+# 🔥 FINAL UI STRUCTURE SUMMARY
+
+| Screen        | Purpose           |
+| ------------- | ----------------- |
+| Feed          | Discovery engine  |
+| Post          | Interaction       |
+| Profile       | Identity + assets |
+| Club          | Community         |
+| Commerce      | Economy entry     |
+| Notifications | Engagement        |
+| Search        | Discovery         |
+| Bell          | Collaboration     |
+
+---
+
+# 🧠 FINAL INSIGHT
+
+This UI is designed to ensure:
+
+👉 Scroll → Click → Participate → Own → Return
+
+NOT just:
+
+👉 Scroll → Like → Exit
+
+---

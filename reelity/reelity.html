@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reelity | Multiverse Social Engine</title>
+
+<style>
+:root {
+  --primary: #ff4757;
+  --bg: #0f0f0f;
+  --card: #1a1a1a;
+  --text: #ffffff;
+  --accent-gradient: linear-gradient(90deg, #ff7a18, #ffb347);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* --- Navigation --- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -1px;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.top-icons {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: #111;
+  padding: 15px 0;
+  border-top: 1px solid #222;
+  z-index: 100;
+}
+
+.nav-item {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  opacity: 0.6;
+}
+
+.nav-item.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* --- Layout --- */
+.screen {
+  display: none;
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* --- Components --- */
+.stories {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0 20px 0;
+  gap: 15px;
+  no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+.story {
+  width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.story-ring {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  padding: 2px;
+  background: var(--accent-gradient);
+  margin-bottom: 5px;
+}
+
+.story img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  object-fit: cover;
+}
+
+.story span {
+  font-size: 10px;
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #222;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.card-header b {
+  font-size: 14px;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.commerce-card {
+  background: var(--accent-gradient);
+  color: black;
+  border: none;
+}
+
+.commerce-card b {
+  font-size: 18px;
+}
+
+.btn-dark {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+/* --- Section Specifics --- */
+.profile-header {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  margin-bottom: 15px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #222;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.5;
+}
+
+.tab.active {
+  opacity: 1;
+  border-bottom: 2px solid var(--primary);
+}
+
+</style>
+</head>
+
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="logo">Reelity</div>
+    <div class="top-icons">
+      <span onclick="showScreen('search')">🔍</span>
+      <span onclick="showScreen('notifications')">🔔</span>
+    </div>
+  </div>
+
+  <!-- MAIN FEED SCREEN -->
+  <div id="feed" class="screen active">
+    <!-- Stories -->
+    <div class="stories">
+      <div class="story">
+        <div class="story-ring"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80"></div>
+        <span>You</span>
+      </div>
+      <div class="story">
+        <div class="story-ring"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80"></div>
+        <span>Legacy</span>
+      </div>
+      <div class="story">
+        <div class="story-ring"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"></div>
+        <span>FCU</span>
+      </div>
+    </div>
+
+    <!-- Feed Content -->
+    <div class="card" onclick="showScreen('post-detail')">
+      <div class="card-header">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" style="width:30px; height:30px; border-radius:50%;">
+        <b>@cinematic_soul</b>
+      </div>
+      <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80">
+      <p>Exploring cinematic culture through a triverse lens 🔥</p>
+      <div class="actions">
+        <span>❤️ 💬 🔗</span>
+        <span>🔖</span>
+      </div>
+    </div>
+
+    <div class="card commerce-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <b>🔥 FCU Drop Live</b>
+          <p style="margin:5px 0;">Limited units available. Phase 1.</p>
+        </div>
+        <button class="btn-dark" onclick="showScreen('commerce')">Participate</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <b>🎬 Film Club</b>
+      </div>
+      <p>Discussion: Is the Multiverse the new Cinema?</p>
+      <button class="btn-primary" onclick="showScreen('club')">Join Discussion</button>
+    </div>
+  </div>
+
+  <!-- POST DETAIL PAGE -->
+  <div id="post-detail" class="screen">
+    <div onclick="showScreen('feed')" style="cursor:pointer; margin-bottom:20px;">← Back to feed</div>
+    <div class="card" style="border:none; padding:0;">
+      <div class="card-header">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" style="width:40px; height:40px; border-radius:50%;">
+        <h3>@cinematic_soul</h3>
+      </div>
+      <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80">
+      <p>This journey through the Aetherion node revealed secrets about the timeline we never suspected.</p>
+      <div class="actions">
+        <span>❤️ 💬 Share</span>
+      </div>
+      <hr style="opacity:0.1; margin:20px 0;">
+      <div>
+        <b>Comments</b>
+        <div style="margin-top:15px; font-size:14px;">
+          <p><b>@walker_01:</b> This architecture is insane! 🔥</p>
+          <p><b>@cyber_v:</b> Can't wait for the drop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="profile" class="screen">
+    <div class="profile-header">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&q=80" class="profile-avatar">
+      <h2>Nova Prime</h2>
+      <p style="opacity:0.6; font-size:14px;">Creator | Collector | Node Architect</p>
+      
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
+        <button class="btn-primary" style="width:auto; padding:8px 30px;">Follow</button>
+        <button class="btn-dark" style="width:auto; padding:8px 30px;">Tag</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Posts</div>
+      <div class="tab">Portfolio</div>
+      <div class="tab">Digital Shelf</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:2px;">
+      <div style="aspect-ratio:1; background:#333;"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=200&q=80" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div style="aspect-ratio:1; background:#333;"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&q=80" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div style="aspect-ratio:1; background:#333;"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" style="width:100%; height:100%; object-fit:cover;"></div>
+    </div>
+  </div>
+
+  <!-- CLUB PAGE -->
+  <div id="club" class="screen">
+    <div onclick="showScreen('feed')" style="cursor:pointer; margin-bottom:20px;">← Back</div>
+    <div style="text-align:center;">
+       <h1 style="margin:0; font-size:40px;">🎬</h1>
+       <h2 style="margin:10px 0;">Film Club</h2>
+       <p style="opacity:0.6;">Members: 1,240 Active</p>
+       <button class="btn-primary" style="margin-bottom:30px;">Join Club</button>
+    </div>
+    
+    <div class="card">
+      <b style="color:var(--primary); font-size:10px; text-transform:uppercase;">Live Discussion</b>
+      <p>Who is the best director in the current triverse phase?</p>
+      <div style="font-size:12px; color:#666;">24 replies • 3 active nodes</div>
+    </div>
+  </div>
+
+  <!-- COMMERCE PAGE -->
+  <div id="commerce" class="screen">
+    <div onclick="showScreen('feed')" style="cursor:pointer; margin-bottom:20px;">← Back</div>
+    <div class="commerce" style="text-align:center;">
+      <h2 style="font-style:italic;">🔥 Limited Drop: Aetherion V1</h2>
+      <img src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=800&q=80" style="border-radius:20px; border:1px solid #ff7a18;">
+      <p style="margin:20px 0; font-size:18px; font-weight:bold;">Only 100 units authorized for the Metropolis district.</p>
+      <button class="btn-primary" style="background:var(--accent-gradient); color:black; height:60px; font-size:18px;">Participate Now</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS PAGE -->
+  <div id="notifications" class="screen">
+    <h2>Notifications</h2>
+    <div class="card">
+      <span style="color:var(--primary);">✦</span> You received 1.2 FCU from the participation pool.
+    </div>
+    <div class="card">
+      <span style="color:orange;">⏳</span> Auction for "Nexus Series" ending in 14 minutes.
+    </div>
+    <div class="card">
+      <span style="color:cyan;">👤</span> @nova_prime started following you.
+    </div>
+  </div>
+
+  <!-- SEARCH PAGE -->
+  <div id="search" class="screen">
+    <input type="text" placeholder="Search Cinematic assets, creators, or clubs...">
+    
+    <div style="margin-top:20px;">
+      <div class="card-header" style="opacity:0.5; margin-bottom:20px;">TRENDING RESULTS</div>
+      <div class="card" style="padding:10px;">@kubrick_archive (Creator)</div>
+      <div class="card" style="padding:10px;">The Nexus Faction (Club)</div>
+      <div class="card" style="padding:10px;">Aetherion Chronos (Asset)</div>
+    </div>
+  </div>
+
+  <!-- BELL (COLLAB) PAGE -->
+  <div id="bell" class="screen">
+    <div style="text-align:center; padding:20px;">
+       <h1 style="font-size:40px; margin:0;">🔔</h1>
+       <h2 style="margin:10px 0;">Create Sovereign Project</h2>
+       <p style="opacity:0.6; font-size:14px;">Ring the bell to find collaborators across the triverse.</p>
+    </div>
+    
+    <div class="card">
+      <label style="font-size:10px; font-weight:bold; opacity:0.5; text-transform:uppercase;">Project Title</label>
+      <input type="text" placeholder="e.g. Metropolis Short Film">
+      
+      <label style="font-size:10px; font-weight:bold; opacity:0.5; text-transform:uppercase;">Roles Needed</label>
+      <input type="text" placeholder="e.g. Node Designer, Sound Engineer">
+      
+      <button class="btn-primary">Find Team</button>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="showScreen('feed', this)">🏠</div>
+    <div class="nav-item" onclick="showScreen('bell', this)">🎴</div>
+    <div class="nav-item" onclick="showScreen('commerce', this)">🛍️</div>
+    <div class="nav-item" onclick="showScreen('club', this)">🌍</div>
+    <div class="nav-item" onclick="showScreen('profile', this)">👤</div>
+  </div>
+
+  <script>
+    function showScreen(screenId, el) {
+      // Hide all screens
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(s => s.classList.remove('active'));
+      
+      // Show selected screen
+      document.getElementById(screenId).classList.add('active');
+      
+      // Update nav icons
+      if (el) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => item.classList.remove('active'));
+        el.classList.add('active');
+      }
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+  </script>
+
+</body>
+</html>
