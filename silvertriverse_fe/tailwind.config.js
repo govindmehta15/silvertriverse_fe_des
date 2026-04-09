@@ -44,6 +44,8 @@ export default {
         'glow-gold-lg': '0 0 20px rgba(201, 162, 39, 0.5), 0 0 40px rgba(201, 162, 39, 0.2)',
         'glow-legendary': '0 0 20px rgba(201, 162, 39, 0.6), 0 0 40px rgba(201, 162, 39, 0.3), inset 0 0 20px rgba(201, 162, 39, 0.1)',
         'glow-rare': '0 0 15px rgba(26, 77, 110, 0.5), 0 0 30px rgba(26, 77, 110, 0.2)',
+        'glow-silver': '0 0 10px rgba(189, 195, 199, 0.3)',
+        'glow-silver-lg': '0 0 20px rgba(189, 195, 199, 0.6)',
         'card': '0 4px 20px rgba(0, 0, 0, 0.4)',
         'card-hover': '0 8px 30px rgba(0, 0, 0, 0.5)',
       },

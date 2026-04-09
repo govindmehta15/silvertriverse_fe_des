@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import BottomNav from '../components/BottomNav';
 import Sidebar from '../components/Sidebar';
 import MobileNavDrawer from '../components/MobileNavDrawer';
@@ -43,7 +43,13 @@ export default function MainLayout() {
                         transition={{ duration: 0.2, ease: 'easeOut' }}
                         className="w-full"
                     >
-                        <Outlet />
+                        <Suspense fallback={
+                            <div className="min-h-screen flex items-center justify-center bg-navy-950">
+                                <div className="w-12 h-12 border-4 border-silver/20 border-t-silver rounded-full animate-spin" />
+                            </div>
+                        }>
+                            <Outlet />
+                        </Suspense>
                     </motion.div>
                 </AnimatePresence>
             </main>

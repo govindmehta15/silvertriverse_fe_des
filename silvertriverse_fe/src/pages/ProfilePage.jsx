@@ -11,6 +11,8 @@ import { dispatchNotification, NotificationTypes } from '../utils/notificationDi
 import { premiumMerchandise, dailyMerchandise } from '../data/merchandiseData';
 import { getThemeById, DEFAULT_THEME_ID, PROFILE_THEMES, FALLBACK_PAGE_BACKGROUND, FALLBACK_COVER_BLEND } from '../data/profileThemes';
 import { useMerchEngine } from '../context/MerchEngineContext';
+import { slcService } from '../services/slcService';
+import SLCStorybook from '../features/slc/SLCStorybook';
 
 const userProfileFallback = {
     club: 'Cinema Club 47',
@@ -50,6 +52,8 @@ export default function ProfilePage() {
     const [coins, setCoins] = useState([]);
     const [bellRung, setBellRung] = useState(false);
     const [selectedArtifact, setSelectedArtifact] = useState(null);
+    const [viewingStoryCoin, setViewingStoryCoin] = useState(null);
+    const [ownedSLCs, setOwnedSLCs] = useState([]);
 
     // Determine if we're viewing another user's profile
     // Priority: /profile/:userId route param > ?user= search param > own profile
@@ -118,6 +122,7 @@ export default function ProfilePage() {
         setOrders(storedOrders);
         const storedCoins = JSON.parse(localStorage.getItem('user_coins') || '[]');
         setCoins(storedCoins);
+        setOwnedSLCs(slcService.getOwnedCoins());
         setBellRung(false); // Reset bell for new profile
         setActiveTab('Shelf'); // Reset to default tab for consistency
     }, [viewingUserId]);
@@ -207,6 +212,31 @@ export default function ProfilePage() {
             profileUser.coins.forEach((coin) => {
                 total++;
                 other.push({ type: 'Collectible Coin', name: coin.name, image: coin.image });
+            });
+        }
+
+        // Silver Legendary Coins (SLC)
+        if (isOwnProfile) {
+            ownedSLCs.forEach((coin) => {
+                total++;
+                other.push({ 
+                    type: 'SLC', 
+                    ...coin,
+                    name: coin.title,
+                    image: coin.image,
+                    isSLC: true 
+                });
+            });
+        } else if (profileUser.ownedSLCs) {
+            profileUser.ownedSLCs.forEach((coin) => {
+                total++;
+                other.push({ 
+                    type: 'SLC', 
+                    ...coin,
+                    name: coin.title,
+                    image: coin.image,
+                    isSLC: true 
+                });
             });
         }
 
@@ -593,9 +623,12 @@ export default function ProfilePage() {
                                                             key={idx}
                                                             whileHover={{ scale: 1.2 }}
                                                             onClick={() => setSelectedArtifact(artifact)}
-                                                            className="group cursor-pointer w-12 h-12 rounded-full overflow-hidden border border-cyan-400/20 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
+                                                            className={`group cursor-pointer w-12 h-12 rounded-full overflow-hidden border ${artifact.isSLC ? 'border-silver shadow-glow-silver animate-pulse' : 'border-cyan-400/20'} hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all`}
                                                         >
                                                             <img src={artifact.image} className="w-full h-full object-cover" />
+                                                            {artifact.isSLC && (
+                                                                <div className="absolute inset-0 bg-silver/20 mix-blend-overlay" />
+                                                            )}
                                                         </motion.div>
                                                     ))}
                                                 </div>
@@ -859,6 +892,43 @@ export default function ProfilePage() {
                                         </div>
                                     )}
 
+                                    {/* SLC Specific Context Actions */}
+                                    {selectedArtifact.isSLC && (
+                                        <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+                                            <div className="flex justify-between items-center bg-silver/10 p-4 rounded-xl border border-silver/20">
+                                                <div>
+                                                    <p className="text-[10px] text-silver font-black uppercase tracking-widest">Serial Number</p>
+                                                    <p className="text-xl font-serif text-white">{selectedArtifact.serialNumber}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-[10px] text-silver font-black uppercase tracking-widest">Utility Power</p>
+                                                    <p className="text-xl font-bold text-blue-400">+{selectedArtifact.utilityPower}%</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-3">
+                                                <button 
+                                                    onClick={() => setViewingStoryCoin(selectedArtifact)}
+                                                    className="flex-1 py-3 bg-white text-navy-950 font-bold rounded-xl hover:bg-gray-200 transition-all"
+                                                >
+                                                    Read Storybook
+                                                </button>
+                                                <button 
+                                                    onClick={() => {
+                                                        const res = slcService.listForResale(selectedArtifact.instanceId, (selectedArtifact.basePrice || 5000) * 1.5);
+                                                        if (res.success) {
+                                                            addToast('Coin listed in Secondary Market!', 'success');
+                                                            setSelectedArtifact(null);
+                                                            setOwnedSLCs(slcService.getOwnedCoins());
+                                                        }
+                                                    }}
+                                                    className="flex-1 py-3 border border-silver/40 text-silver font-bold rounded-xl hover:bg-silver/10 transition-all"
+                                                >
+                                                    Resell (Escrow)
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Acquisition Data */}
                                     <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
                                         <div>
@@ -873,6 +943,16 @@ export default function ProfilePage() {
                             </div>
                         </motion.div>
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Storybook Portal */}
+            <AnimatePresence>
+                {viewingStoryCoin && (
+                    <SLCStorybook 
+                        coin={viewingStoryCoin} 
+                        onClose={() => setViewingStoryCoin(null)} 
+                    />
                 )}
             </AnimatePresence>
         </div>

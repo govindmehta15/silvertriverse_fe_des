@@ -1,0 +1,98 @@
+/* /src/features/verse-cards/VerseCards.css */
+
+.verse-card-3d {
+    perspective: 1000px;
+    height: 480px;
+    width: 100%;
+}
+
+.verse-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.verse-card-3d:hover .verse-card-inner {
+    transform: rotateY(10deg) rotateX(5deg);
+}
+
+.verse-card-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.verse-card-front, .verse-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.verse-card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #0a1128 0%, #000 100%);
+}
+
+/* Common Card Holographic */
+.holographic-glint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0) 40%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(255, 255, 255, 0) 60%, 
+        transparent 100%);
+    background-size: 200% 200%;
+    animation: holo-shine 5s infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes holo-shine {
+    0% { background-position: -100% -100%; }
+    100% { background-position: 200% 200%; }
+}
+
+/* Rare Card Glow */
+.rare-glow {
+    box-shadow: 0 0 30px rgba(52, 152, 219, 0.2);
+    border: 1px solid rgba(52, 152, 219, 0.4);
+}
+
+.rare-glow::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #3498db, transparent, #2ecc71, transparent, #3498db);
+    background-size: 400%;
+    z-index: -1;
+    border-radius: 22px;
+    animation: border-rotate 8s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes border-rotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.price-tag-neon {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.milestone-bar-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.countdown-digit {
+    background: rgba(255, 255, 255, 0.05);
+    @apply px-1.5 py-1 rounded text-xs font-mono font-black text-white;
+}

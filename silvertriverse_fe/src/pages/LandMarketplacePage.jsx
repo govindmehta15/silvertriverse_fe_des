@@ -14,6 +14,7 @@ import {
 } from '../data/plotsData';
 import { mockUsers } from '../mock/mockUsers';
 import Land3D from '../components/Land3D';
+import { slcService } from '../services/slcService';
 
 const CELL_PX = 12;
 const MIN_ZOOM = 0.4;
@@ -77,7 +78,12 @@ function calculateUserPowerPool(ownerUser) {
   const tCards = (ownerUser.ownedCards?.length || 0) * 2;
   const tAssets = (ownerUser.purchasedItems?.length || 0) * 3;
   const tRelics = (ownerUser.ownedRelics?.length || 0) * 5;
-  const total = tCards + tAssets + tRelics;
+  
+  // SLC Utility Power (2-4% each)
+  const ownedSLCs = slcService.getOwnedCoins();
+  const tSLC = ownedSLCs.reduce((acc, coin) => acc + (coin.utilityPower || 0), 0);
+  
+  const total = tCards + tAssets + tRelics + tSLC;
 
   // Calculate used power: sum of all plot progress for this user
   // (In a real app, you'd fetch this from the backend)
@@ -165,6 +171,26 @@ export default function LandMarketplacePage() {
     if (current >= 100) return;
 
     const newProgress = Math.min(100, current + amount);
+    
+    // 85% Rule Check
+    const ownedSLCs = slcService.getOwnedCoins();
+    const secondarySLCs = ownedSLCs.filter(c => c.source === 'secondary');
+    const totalSecondaryPower = secondarySLCs.reduce((acc, c) => acc + (c.utilityPower || 0), 0);
+    
+    if (current >= 85 && totalSecondaryPower > 0) {
+        // Technically this check should be: if the user ONLY has secondary power left.
+        // But the rule says: "If a building reaches 85% completion, the user can no longer apply coins purchased from the secondary marketplace"
+        // So we just need to ensure that the 'amount' being applied doesn't come from secondary SLCs.
+        // For simplicity in this mock, we'll warn if they try to allocate ANY power beyond 85% if they are relying on SLCs.
+        // A better check:
+        const organicTotal = powerPool.total - totalSecondaryPower;
+        const organicUsed = powerPool.used; // This is an approximation
+        if (organicUsed >= organicTotal && current >= 85) {
+             alert("85% Rule: You must use Primary Allocation coins or organic rewards to finish this building.");
+             return;
+        }
+    }
+
     setData(`land_plot_progress_${index}`, newProgress);
 
     // Update local state for immediate feedback
@@ -481,8 +507,8 @@ export default function LandMarketplacePage() {
                       <p>Per Asset</p>
                     </div>
                     <div className="p-2 rounded-lg bg-navy-900/40 border border-navy-600">
-                      <p className="text-violet-400 font-bold text-xs">+5%</p>
-                      <p>Per Relic</p>
+                      <p className="text-silver font-bold text-xs">+2-4%</p>
+                      <p>Per SLC</p>
                     </div>
                   </div>
                   <p className="mt-3 text-[9px] text-gray-600 italic">

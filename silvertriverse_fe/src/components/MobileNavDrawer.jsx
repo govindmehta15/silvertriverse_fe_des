@@ -11,6 +11,7 @@ const navItems = [
   { to: '/reelity/clubs', label: 'Societies' },
   { to: '/merchandise', label: 'Merchandise' },
   { to: '/ai-avatars', label: 'AI Avatars' },
+  { to: '/slc', label: 'Silver Legendary Coins' },
   { to: '/leaderboard', label: 'Rankings' },
   { to: '/land', label: 'Land' },
   { to: '/land-world', label: 'Land World' },
