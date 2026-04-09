@@ -107,6 +107,15 @@ const navItems = [
             </svg>
         ),
     },
+    {
+        to: '/sll',
+        label: 'Legacy League',
+        icon: (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-.75V10.5h.75c.621 0 1.125-.504 1.125-1.125V6.75a9 9 0 00-18 0v2.625c0 .621.504 1.125 1.125 1.125h.75V14.25h-.75c-.621 0-1.125.504-1.125 1.125v3.375m9 0h-1.5" />
+            </svg>
+        ),
+    },
 ];
 
 export default function Sidebar() {
@@ -114,7 +123,7 @@ export default function Sidebar() {
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
     return (
-        <aside className="hidden lg:flex flex-col w-64 h-screen fixed left-0 top-0 z-50 bg-navy-950/95 backdrop-blur-xl border-r border-navy-600/30">
+        <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 z-50 bg-navy-950/95 backdrop-blur-xl border-r border-navy-600/30">
             {/* Logo - clickable to home */}
             <Link
                 to="/"

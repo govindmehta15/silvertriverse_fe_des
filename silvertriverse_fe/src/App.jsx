@@ -112,12 +112,12 @@ export default function App({ demoModeOverride = false }) {
                     <AnimatePresence mode="wait">
                       {showSplash && <SplashScreen key="splash" />}
                     </AnimatePresence>
-                    
+
                     <Router>
                       <Routes>
                         <Route element={<MainLayout />}>
                           <Route path="/" element={<Navigate to="/reelity" replace />} />
-                          
+
                           {/* Reelity Sub-Routes */}
                           <Route path="reelity" element={<ReelityLayout />}>
                             <Route index element={<ReelityFeedPage />} />
@@ -135,7 +135,7 @@ export default function App({ demoModeOverride = false }) {
                           <Route path="slc/marketplace" element={<SLCSecondaryMarket />} />
                           <Route path="verse-cards" element={<VerseCardsPage />} />
                           <Route path="verse-cards/marketplace" element={<VerseCardMarketplace />} />
-                          
+
                           {/* Collectible Units */}
                           <Route path="collectible-units" element={<CollectibleUnitsPage />} />
                           <Route path="collectible-units/explore" element={<CollectibleUnitsPage />} />
@@ -195,7 +195,7 @@ export default function App({ demoModeOverride = false }) {
                           />
                           <Route path="profile/:userId" element={<KeyedProfilePage />} />
                           <Route path="leaderboard" element={<LeaderboardPage />} />
-                          
+
                           {/* Land & Metaverse */}
                           <Route path="land" element={<LandMarketplacePage />} />
                           <Route

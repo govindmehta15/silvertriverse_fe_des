@@ -32,7 +32,7 @@ export default function MainLayout() {
             <MobileNavDrawer isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
             {/* Main content area */}
-            <main className="relative z-10 lg:pl-0 lg:ml-64 pb-20 lg:pb-0 min-h-screen">
+            <main className="relative z-10 md:ml-64 pb-20 md:pb-0 min-h-screen">
                 <AnimatePresence initial={false}>
                     <motion.div
                         key={location.pathname}
