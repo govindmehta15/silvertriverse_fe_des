@@ -13,6 +13,7 @@ const navItems = [
   { to: '/ai-avatars', label: 'AI Avatars' },
   { to: '/slc', label: 'Silver Legendary Coins' },
   { to: '/verse-cards', label: 'Verse Cards' },
+  { to: '/sll', label: 'Legacy League' },
   { to: '/leaderboard', label: 'Rankings' },
   { to: '/land', label: 'Land' },
   { to: '/land-world', label: 'Land World' },

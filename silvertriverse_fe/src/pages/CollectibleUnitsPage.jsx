@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCuEngine } from '../context/CuEngineContext';
+import { sllService } from '../services/sllService';
+import { Link } from 'react-router-dom';
 
 // ─── Countdown hook ──────────────────────────────────────────────
 function useCountdownTimer(targetMs) {
@@ -37,6 +39,12 @@ function DropCard({ drop, onBid, userBid, onAllocate, onClick }) {
     const hasBid = !!userBid;
     const canAllocate = drop.status === 'CLOSED' && drop.bidders.length > 0;
 
+    const sllStats = sllService.getUserStats();
+    const isWhitelisted = !drop.requiredRank || (
+        ['Bronze Voter', 'Silver Voter', 'Gold Voter', 'Master Voter'].indexOf(sllStats.badge) >= 
+        ['Bronze Voter', 'Silver Voter', 'Gold Voter', 'Master Voter'].indexOf(drop.requiredRank)
+    );
+
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} whileHover={{ y: -4 }}
             className="rounded-2xl border border-navy-700/30 overflow-hidden group transition-all hover:border-gold/30 cursor-pointer"
@@ -47,8 +55,13 @@ function DropCard({ drop, onBid, userBid, onAllocate, onClick }) {
                 <img src={drop.cardImage} alt={drop.cardName} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent" />
 
-                <div className="absolute top-2.5 left-2.5">
+                <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5">
                     <span className={`text-[8px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border ${rarity.bg} ${rarity.text} ${rarity.border}`}>{rarity.label}</span>
+                    {drop.requiredRank && (
+                        <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-1 rounded-full border backdrop-blur-md ${isWhitelisted ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400' : 'bg-red-500/20 border-red-500/30 text-red-400'}`}>
+                            {isWhitelisted ? '✓ Whitelisted' : `🔒 ${drop.requiredRank} Only`}
+                        </span>
+                    )}
                 </div>
                 <div className="absolute top-2.5 right-2.5">
                     <span className={`text-[9px] font-mono px-2 py-1 rounded-full border backdrop-blur-md ${
@@ -99,13 +112,18 @@ function DropCard({ drop, onBid, userBid, onAllocate, onClick }) {
                 </div>
             </div>
 
-            {/* Action */}
             <div className="px-3.5 pb-3.5">
-                {drop.isLive && !hasBid && (
+                {drop.isLive && !hasBid && isWhitelisted && (
                     <button onClick={(e) => { e.stopPropagation(); onBid(drop.id); }}
                         className="w-full py-3 bg-gold text-black rounded-xl text-[10px] uppercase font-black tracking-[0.3em] hover:bg-yellow-300 transition-all shadow-[0_0_20px_rgba(201,162,39,0.12)]">
                         BID ₹{drop.cardPrice}
                     </button>
+                )}
+                {drop.isLive && !hasBid && !isWhitelisted && (
+                    <Link to="/sll" onClick={(e) => e.stopPropagation()}
+                        className="w-full py-3 bg-white/5 border border-white/10 text-white/40 rounded-xl text-[9px] uppercase font-black tracking-widest hover:text-white hover:border-white/20 transition-all text-center block">
+                        Rank Up in Stadium Hub
+                    </Link>
                 )}
                 {drop.isLive && hasBid && userBid.status === 'BLOCKED' && (
                     <div className="py-2.5 bg-green-950/30 border border-green-700/20 rounded-xl text-center">

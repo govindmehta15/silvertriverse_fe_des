@@ -9,7 +9,18 @@ import {
     brandCollectibleUnits,
 } from '../data/collectibleUnitsData';
 
+import { sllService } from '../services/sllService';
+
 const CuEngineContext = createContext(null);
+
+const SLL_RANKS = ['Bronze Voter', 'Silver Voter', 'Gold Voter', 'Master Voter'];
+
+const hasRequiredRank = (userRank, requiredRank) => {
+    if (!requiredRank) return true;
+    const userIdx = SLL_RANKS.indexOf(userRank);
+    const reqIdx = SLL_RANKS.indexOf(requiredRank);
+    return userIdx >= reqIdx;
+};
 
 const CATEGORIES = [
     { id: 'film', label: 'Film', icon: '🎬' },
@@ -95,6 +106,7 @@ function generateDailyDrops(allData) {
                     allocated: [],
                     allocatedNames: [],
                     status: isLive ? 'BIDDING' : 'CLOSED',
+                    requiredRank: coin.rarity === 'collectors' ? 'Silver Voter' : null,
                     // Utility: Land System only
                     utility: { ...landUtil, power: rarityPower.power, powerLabel: rarityPower.label },
                 });
@@ -133,6 +145,7 @@ function generateDailyDrops(allData) {
                 allocated: [],
                 allocatedNames: [],
                 status: mp.endTime > now ? 'BIDDING' : 'CLOSED',
+                requiredRank: 'Gold Voter',
                 utility: { ...LAND_UTILITY[cat], power: RARITY_POWER.masterpiece.power, powerLabel: RARITY_POWER.masterpiece.label },
             });
         }
@@ -174,6 +187,16 @@ export function CuEngineProvider({ children }) {
         if (!user) return { success: false, error: 'Login required to bid' };
         const drop = drops.find(d => d.id === dropId);
         if (!drop) return { success: false, error: 'Drop not found' };
+        
+        // SLL Whitelist Check
+        const sllStats = sllService.getUserStats();
+        if (drop.requiredRank && !hasRequiredRank(sllStats.badge, drop.requiredRank)) {
+            return { 
+                success: false, 
+                error: `Whitelist denied: ${drop.requiredRank} status required in Legacy League hub.` 
+            };
+        }
+
         if (!drop.isLive) return { success: false, error: 'Bidding window closed' };
         if (userBids[dropId]) return { success: false, error: 'Already bid on this drop' };
 

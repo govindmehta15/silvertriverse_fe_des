@@ -11,6 +11,8 @@ import ClubCard from '../components/ClubCard';
 import Leaderboard from '../components/Leaderboard';
 import useCountdown from '../hooks/useCountdown';
 import { SkeletonCard } from '../components/Skeleton';
+import SLLMatchWidget from '../features/sll/SLLMatchWidget';
+import { sllService } from '../services/sllService';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
 const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
@@ -172,12 +174,21 @@ export default function ReelityFeedPage() {
             if (sIdx >= social.length && cIdx >= commerce.length && dIdx >= discovery.length) break;
         }
 
-        // 3. Inject Spotlights & Clubs every few items
+        // 3. Inject Spotlights, Clubs, and SLL Matches every few items
         const finalFeed = [];
+        const matches = sllService.getMatches();
+        
         result.forEach((f, i) => {
             finalFeed.push(f);
+            
+            // Inject Club every 4 items
             if ((i + 1) % 4 === 0 && i < trendingClubs.length * 4) {
                 finalFeed.push({ type: 'INTERNAL_CLUB', data: trendingClubs[Math.floor(i/4)] });
+            }
+            
+            // Inject SLL Match every 6 items
+            if ((i + 1) % 6 === 0 && matches.length > 0) {
+                finalFeed.push({ type: 'SLL_MATCH', data: matches[Math.floor(i/6) % matches.length] });
             }
         });
 
@@ -316,6 +327,14 @@ export default function ReelityFeedPage() {
                                             <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest px-2 py-0.5 bg-teal-500/10 border border-teal-500/20 rounded-full">Trending Club</span>
                                         </div>
                                         <ClubCard community={feedItem.data} />
+                                    </motion.div>
+                                );
+                            }
+
+                            if (feedItem.type === 'SLL_MATCH') {
+                                return (
+                                    <motion.div key={`sll-${feedItem.data.id}-${i}`} variants={item}>
+                                        <SLLMatchWidget match={feedItem.data} />
                                     </motion.div>
                                 );
                             }

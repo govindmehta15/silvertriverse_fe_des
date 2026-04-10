@@ -61,6 +61,13 @@ import SLCSecondaryMarket from './features/slc/SLCSecondaryMarket';
 import VerseCardsPage from './features/verse-cards/VerseCardsPage';
 import VerseCardMarketplace from './features/verse-cards/VerseCardMarketplace';
 
+import SLLHub from './features/sll/SLLHub';
+import SLLTournamentDashboard from './features/sll/SLLTournamentDashboard';
+import SLLLeaderboard from './features/sll/SLLLeaderboard';
+import SLLMatchDetail from './features/sll/SLLMatchDetail';
+import SLLUserStats from './features/sll/SLLUserStats';
+import SLLHeritageVault from './features/sll/SLLHeritageVault';
+
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleGuard from './components/RoleGuard';
@@ -136,6 +143,13 @@ export default function App({ demoModeOverride = false }) {
                           <Route path="verse-cards" element={<VerseCardsPage />} />
                           <Route path="verse-cards/marketplace" element={<VerseCardMarketplace />} />
 
+                          <Route path="sll" element={<SLLHub />} />
+                          <Route path="sll/tournament/:tournamentId" element={<SLLTournamentDashboard />} />
+                          <Route path="sll/match/:matchId" element={<SLLMatchDetail />} />
+                          <Route path="sll/leaderboard" element={<SLLLeaderboard />} />
+                          <Route path="sll/stats" element={<SLLUserStats />} />
+                          <Route path="sll/vault" element={<SLLHeritageVault />} />
+                          
                           {/* Collectible Units */}
                           <Route path="collectible-units" element={<CollectibleUnitsPage />} />
                           <Route path="collectible-units/explore" element={<CollectibleUnitsPage />} />
